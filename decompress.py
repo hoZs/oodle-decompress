@@ -19,7 +19,7 @@ class Decompresser:
             if operatingSystem == 'Windows':
                 self.oodle = ctypes.CDLL('./oo2core_9_win64.dll')
             elif operatingSystem == 'Linux':
-                self.oodle = ctypes.CDLL('./liboo2core_9_linux64.so')
+                self.oodle = ctypes.CDLL('./liboo2corelinux64.so.9')
         except FileNotFoundError:
             print("Error: oo2core file not found")
             exit()
@@ -60,6 +60,7 @@ class Decompresser:
         decompressedBuffer = ctypes.create_string_buffer(uncompressedSize)
 
         result = self._decompress(compressedData, compressedSize, decompressedBuffer, uncompressedSize)
+        print(result)
         if saveToDisk:
             self._write_bin(result, decompressedBuffer)
             return None
@@ -113,4 +114,4 @@ class Decompresser:
 
 if __name__ == '__main__':
     decomp = Decompresser()
-    decomp.main_process()
+    decomp.main_process(saveToDisk=True)
